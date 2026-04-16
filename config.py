@@ -31,6 +31,7 @@ ASSETS_DIR = os.path.join(_base_dir, "assets")
 DUCK_IMAGE = os.path.join(ASSETS_DIR, "duck_timer.jpg")
 DUCK_FORTUNE_IMAGE = os.path.join(ASSETS_DIR, "duck_fortune.jpg")
 DUCK_LOTTO_IMAGE = os.path.join(ASSETS_DIR, "ducky_lotto.png")
+FIDDLE_FILE = os.path.join(ASSETS_DIR, "fiddle.md")
 
 # ── Access control ───────────────────────────────────────────────────────────
 
