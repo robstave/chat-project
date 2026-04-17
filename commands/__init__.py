@@ -9,6 +9,7 @@ from commands.calotto import calotto
 from commands.f5lottery import f5lottery
 from commands.help import commands_help
 from commands.ask import ask
+from commands.stats import stats
 
 
 def register_all(app: Application) -> None:
@@ -22,3 +23,4 @@ def register_all(app: Application) -> None:
     app.add_handler(CommandHandler("f5lottery", f5lottery))
     app.add_handler(CommandHandler("commands", commands_help))
     app.add_handler(CommandHandler("ask", ask))
+    app.add_handler(CommandHandler("stats", stats))

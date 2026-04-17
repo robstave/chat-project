@@ -1,0 +1,208 @@
+openapi: "3.0.1"
+info:
+  title: "metrics-api"
+  version: "2026-04-11T18:34:41Z"
+servers:
+- url: "https://9qgq6qqfvh.execute-api.us-west-2.amazonaws.com/{basePath}"
+  variables:
+    basePath:
+      default: "dev"
+paths:
+  /templates:
+    get:
+      security:
+      - api_key: []
+    post:
+      security:
+      - api_key: []
+  /users/{userId}/metrics/{metricId}/events/{timestamp}:
+    delete:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "metricId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "timestamp"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - api_key: []
+  /users/{userId}/metrics/{metricId}/events/latest:
+    get:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "metricId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - api_key: []
+  /users:
+    post:
+      security:
+      - api_key: []
+  /users/{userId}/sources/{sourceId}:
+    delete:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "sourceId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - api_key: []
+  /templates/{templateId}:
+    delete:
+      parameters:
+      - name: "templateId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - api_key: []
+  /users/{userId}/metrics/{metricId}:
+    delete:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "metricId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - api_key: []
+  /users/{userId}/dashboards:
+    get:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - api_key: []
+    post:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - api_key: []
+  /users/{userId}/metrics:
+    get:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - api_key: []
+    post:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - api_key: []
+  /users/{userId}/metrics/{metricId}/events:
+    get:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "metricId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - api_key: []
+    post:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "metricId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - api_key: []
+  /users/{userId}/sources:
+    get:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - api_key: []
+    post:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - api_key: []
+  /users/{userId}:
+    get:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - api_key: []
+    put:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - api_key: []
+components:
+  securitySchemes:
+    api_key:
+      type: "apiKey"
+      name: "x-api-key"
+      in: "header"
+x-amazon-apigateway-security-policy: "TLS_1_0"
