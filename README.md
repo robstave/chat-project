@@ -2,6 +2,8 @@
 
 A Telegram bot powered by Google Gemini, with the persona of Ducky — a mischievous boy sphynx cat.
 
+> **Note:** This is a personal project. It's wired up to my own private AWS Lambda functions and DynamoDB tables for the `/stats` command — you won't be able to use that part out of the box. That said, the bot architecture, persona system, and command structure are a solid starting point if you want to build something similar. Feel free to study it for ideas, but don't expect a straight copy-paste to just work.
+
 ---
 
 ## Running the Bot
@@ -130,6 +132,24 @@ Ducky's personality is defined in `persona.md`. It is read fresh on every LLM ca
 | `/calotto` | Generate California SuperLotto Plus numbers. Ducky writes a lucky cat haiku, which is hashed to seed the RNG, producing 5 numbers (1–47) plus a Mega number (1–27). |
 | `/f5lottery` | Generate California Fantasy 5 numbers. Same haiku-seeded approach, producing 5 numbers (1–39). |
 | `/commands` | Show the list of available commands (sent as a Markdown-formatted message). |
+| `/stats list` | List all available metric IDs for your user. |
+| `/stats <metric>` | Show the last 10 events for a metric (e.g. `/stats weight-scale`). |
+| `/stats set <metric> <value> [MM/DD]` | Record a new value for a metric, optionally with a specific date. |
+
+### Stats aliases
+
+| Alias | Resolves to |
+|-------|-------------|
+| `steps` | `steps-iphone` |
+| `weight` | `weight-scale` |
+
+The `/stats` command talks to an external AWS API Gateway → Lambda → DynamoDB backend. The relevant environment variables are:
+
+| Variable | Description |
+|----------|-------------|
+| `AWS_API_URL` | Base URL of the API Gateway endpoint |
+| `AWS_API_KEY` | API key sent as `x-api-key` header |
+| `AWS_USER` | Username to query. Defaults to the Telegram sender's handle if unset. |
 
 All commands require access — unauthorized users receive no response.
 
