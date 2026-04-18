@@ -78,3 +78,21 @@ def load_persona() -> str:
             return f.read().strip()
     except FileNotFoundError:
         return "You are a helpful assistant."
+
+
+def log_token_usage(response, label: str = "LLM") -> None:
+    """Log token usage from a LangChain AI message response."""
+    try:
+        meta = getattr(response, "usage_metadata", None) or {}
+        if not meta:
+            # Gemini sometimes puts it in response_metadata
+            meta = getattr(response, "response_metadata", {}).get("usage_metadata", {})
+        input_tokens = meta.get("input_tokens", meta.get("prompt_token_count", "?"))
+        output_tokens = meta.get("output_tokens", meta.get("candidates_token_count", "?"))
+        total_tokens = meta.get("total_tokens", meta.get("total_token_count", "?"))
+        log.info(
+            "%s tokens — input: %s  output: %s  total: %s",
+            label, input_tokens, output_tokens, total_tokens,
+        )
+    except Exception as e:
+        log.warning("Could not log token usage: %s", e)

@@ -132,6 +132,7 @@ Ducky's personality is defined in `persona.md`. It is read fresh on every LLM ca
 | `/calotto` | Generate California SuperLotto Plus numbers. Ducky writes a lucky cat haiku, which is hashed to seed the RNG, producing 5 numbers (1–47) plus a Mega number (1–27). |
 | `/f5lottery` | Generate California Fantasy 5 numbers. Same haiku-seeded approach, producing 5 numbers (1–39). |
 | `/commands` | Show the list of available commands (sent as a Markdown-formatted message). |
+| `/ask <question>` | Ask Ducky anything in natural language. The LLM can call tools automatically — including looking up your stats. E.g. `/ask what are my latest weights?` |
 | `/stats list` | List all available metric IDs for your user. |
 | `/stats <metric>` | Show the last 10 events for a metric (e.g. `/stats weight-scale`). |
 | `/stats set <metric> <value> [MM/DD]` | Record a new value for a metric, optionally with a specific date. |

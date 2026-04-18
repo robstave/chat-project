@@ -6,7 +6,7 @@ from telegram.ext import ContextTypes
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, SystemMessage
 
-from config import check_access, load_persona, GEMINI_API_KEY, DUCK_LOTTO_IMAGE
+from config import check_access, load_persona, log_token_usage, GEMINI_API_KEY, DUCK_LOTTO_IMAGE
 
 
 async def f5lottery(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -25,6 +25,7 @@ async def f5lottery(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             ),
         ])
         haiku = haiku_response.content.strip()
+        log_token_usage(haiku_response, label="/f5lottery")
 
         seed = int(hashlib.sha256(haiku.encode()).hexdigest(), 16)
         rng = random.Random(seed)

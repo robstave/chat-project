@@ -5,7 +5,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from config import check_access, load_persona, GEMINI_API_KEY
+from config import check_access, load_persona, log_token_usage, GEMINI_API_KEY
 from tools import ALL_TOOLS
 
 log = logging.getLogger("bot")
@@ -43,6 +43,7 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             messages.append(response)
 
             if not response.tool_calls:
+                log_token_usage(response, label="/ask")
                 break
 
             for tc in response.tool_calls:
