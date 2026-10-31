@@ -6,7 +6,7 @@ from telegram.ext import ContextTypes
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, SystemMessage
 
-from config import check_access, load_persona, log_token_usage, GEMINI_API_KEY, DUCK_LOTTO_IMAGE
+from config import check_access, load_persona, log, log_token_usage, GEMINI_API_KEY, GEMINI_MODEL, DUCK_LOTTO_IMAGE
 
 
 async def f5lottery(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -16,7 +16,7 @@ async def f5lottery(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("Stretching paws for Fantasy 5...")
     try:
         persona = load_persona()
-        llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=GEMINI_API_KEY)
+        llm = ChatGoogleGenerativeAI(model=GEMINI_MODEL, google_api_key=GEMINI_API_KEY)
         haiku_response = await llm.ainvoke([
             SystemMessage(content=persona),
             HumanMessage(
@@ -25,7 +25,7 @@ async def f5lottery(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             ),
         ])
         haiku = haiku_response.content.strip()
-        log_token_usage(haiku_response, label="/f5lottery")
+        log_token_usage(haiku_response, label="/f5lottery", model=GEMINI_MODEL)
 
         seed = int(hashlib.sha256(haiku.encode()).hexdigest(), 16)
         rng = random.Random(seed)
@@ -39,7 +39,11 @@ async def f5lottery(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             f"\U0001F3B2 CA Fantasy 5 Numbers:\n"
             f"{numbers_str}"
         )
+        user = update.effective_user
+        handle = user.username if user and user.username else (user.id if user else "unknown")
+        log.info("/f5lottery  @%s  numbers=%s", handle, numbers_str)
         with open(DUCK_LOTTO_IMAGE, "rb") as photo:
             await update.message.reply_photo(photo=photo, caption=caption)
     except Exception as e:
+        log.error("/f5lottery failed: %s", e)
         await update.message.reply_text(f"The cat lottery oracle is unavailable: {e}")

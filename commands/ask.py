@@ -5,7 +5,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from config import check_access, load_persona, log_token_usage, GEMINI_API_KEY
+from config import check_access, load_persona, log_token_usage, GEMINI_API_KEY, GEMINI_MODEL
 from tools import ALL_TOOLS
 
 log = logging.getLogger("bot")
@@ -32,7 +32,7 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             "array syntax. Summarize or present the information clearly in plain English."
         )
         llm = ChatGoogleGenerativeAI(
-            model="gemini-2.5-flash", google_api_key=GEMINI_API_KEY
+            model=GEMINI_MODEL, google_api_key=GEMINI_API_KEY
         ).bind_tools(ALL_TOOLS)
 
         messages = [SystemMessage(content=system_prompt), HumanMessage(content=question)]
@@ -40,10 +40,10 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         # Tool-call loop — run until the model returns a plain reply
         while True:
             response = await llm.ainvoke(messages)
+            log_token_usage(response, label="/ask", model=GEMINI_MODEL)
             messages.append(response)
 
             if not response.tool_calls:
-                log_token_usage(response, label="/ask")
                 break
 
             for tc in response.tool_calls:

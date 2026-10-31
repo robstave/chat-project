@@ -3,7 +3,7 @@ from telegram.ext import ContextTypes
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, SystemMessage
 
-from config import check_access, load_persona, GEMINI_API_KEY, DUCK_FORTUNE_IMAGE
+from config import check_access, load_persona, log_token_usage, GEMINI_API_KEY, GEMINI_MODEL, DUCK_FORTUNE_IMAGE
 
 
 async def fortune(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -12,7 +12,7 @@ async def fortune(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("Consulting the duck oracle...")
     try:
         persona = load_persona()
-        llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=GEMINI_API_KEY)
+        llm = ChatGoogleGenerativeAI(model=GEMINI_MODEL, google_api_key=GEMINI_API_KEY)
         response = await llm.ainvoke([
             SystemMessage(content=persona),
             HumanMessage(
@@ -20,6 +20,7 @@ async def fortune(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                         "Be creative and uplifting."
             ),
         ])
+        log_token_usage(response, label="/fortune", model=GEMINI_MODEL)
         with open(DUCK_FORTUNE_IMAGE, "rb") as photo:
             await update.message.reply_photo(photo=photo, caption=response.content)
     except Exception as e:

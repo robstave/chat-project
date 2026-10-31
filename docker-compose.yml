@@ -4,4 +4,6 @@ services:
     env_file: .env
     volumes:
       - /var/log/ducky-bot:/app/logs
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: unless-stopped

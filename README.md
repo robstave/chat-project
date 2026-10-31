@@ -95,6 +95,7 @@ A Telegram bot powered by Google Gemini, with the persona of Ducky — a mischie
 | `GEMINI_APIKEY` | Google Gemini API key |
 | `ADMIN_HANDLE` | Your Telegram `@handle` — has permanent full access |
 | `LOG_DIR` | *(optional)* Directory for `bot.log`. Defaults to `./logs`. |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | *(optional)* OTLP HTTP base endpoint for telemetry export (example: `http://127.0.0.1:4318` for local, `http://host.docker.internal:4318` in Docker). |
 
 ### Access control (`allowed.md`)
 
@@ -131,6 +132,7 @@ Ducky's personality is defined in `persona.md`. It is read fresh on every LLM ca
 | `/fortune` | Ask Ducky for a whimsical daily fortune, delivered with a duck photo. |
 | `/calotto` | Generate California SuperLotto Plus numbers. Ducky writes a lucky cat haiku, which is hashed to seed the RNG, producing 5 numbers (1–47) plus a Mega number (1–27). |
 | `/f5lottery` | Generate California Fantasy 5 numbers. Same haiku-seeded approach, producing 5 numbers (1–39). |
+| `/random [max]` | Return a random number from `0` to `99`, or from `0` to `max - 1` when a positive integer is provided. |
 | `/commands` | Show the list of available commands (sent as a Markdown-formatted message). |
 | `/ask <question>` | Ask Ducky anything in natural language. The LLM can call tools automatically — including looking up your stats. E.g. `/ask what are my latest weights?` |
 | `/stats list` | List all available metric IDs for your user. |

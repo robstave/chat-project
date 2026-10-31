@@ -7,5 +7,6 @@
 • /fortune — Ask Ducky for a whimsical daily fortune
 • /calotto — Generate CA SuperLotto Plus numbers (5 from 1‑47 + Mega 1‑27)
 • /f5lottery — Generate CA Fantasy 5 numbers (5 from 1‑39)
+• /random `[max]` — Return a random number from 0 to 99, or from 0 to `max - 1`
 • /ask `<question>` — Ask Ducky anything; he'll use the right tool to answer
 • /commands — Show this list
